@@ -44,6 +44,7 @@ func Router() *gin.Engine {
 	export := r.Group("/export")
 	{
 		export.GET("", controllers.UserController{}.ExportTable)
+		export.GET("/contrast", controllers.UserController{}.ExportAdd)
 	}
 
 	return r
