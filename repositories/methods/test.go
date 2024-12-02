@@ -4,6 +4,63 @@ import (
 	"log"
 )
 
+// ————结构体官方案例开始————
+// 假设有下面这样一个结构体
+type Person struct {
+	Name     string
+	Age      int
+	Address  string
+	Salary   float64
+	Birthday string
+}
+
+// 声明一个PersonOptions类型，它接受一个*Person类型的参数，它必须是指针，因为我们要在闭包中对Person赋值。
+type PersonOptions func(p *Person) // todo 根据猜测 这种应该类似于 创建一个表 然后将表return
+
+// 接下来创建选项函数，它们一般是With开头，它们的返回值就是一个闭包函数。
+func WithName(name string) PersonOptions {
+	return func(p *Person) {
+		p.Name = name
+	}
+}
+
+func WithAge(age int) PersonOptions {
+	return func(p *Person) {
+		p.Age = age
+	}
+}
+
+func WithAddress(address string) PersonOptions {
+	return func(p *Person) {
+		p.Address = address
+	}
+}
+
+func WithSalary(salary float64) PersonOptions {
+	return func(p *Person) {
+		p.Salary = salary
+	}
+}
+
+// 实际声明的构造函数签名如下，它接受一个可变长PersonOptions类型的参数。
+func NewPerson(options ...PersonOptions) *Person {
+	// 优先应用options
+	p := &Person{}
+	for _, option := range options {
+		option(p)
+	}
+
+	// 默认值处理
+	if p.Age < 0 {
+		p.Age = 0
+	}
+
+	return p
+}
+
+// ————结构体官方案例结束————
+
+// ————map 映射表 官方案例开始————
 func MapUser() {
 
 	// map[string]后面可以跟各种类型
@@ -50,3 +107,5 @@ func MapUser() {
 	date1, exists1 := cardMap["12333"]
 	log.Println(date1, exists1, 777) // false 777
 }
+
+// ————map 映射表 官方案例结束————

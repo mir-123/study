@@ -33,7 +33,7 @@ func (u UserController) ExportTable(c *gin.Context) {
 		}
 		// 处理读取到的文件
 		//methods.JsonToExcel(string(data), strconv.Itoa(i))
-		methods.JsonToExcel(string(data), "314", strconv.Itoa(i))
+		methods.JsonToExcel(string(data), "第二批数据", strconv.Itoa(i))
 	}
 }
 
