@@ -25,8 +25,8 @@ func Router() *gin.Engine {
 
 	test := r.Group("/ceshi")
 	{
+		test.GET("/test", controllers.UserController{}.GetTest)
 		test.GET("/get/:id", controllers.UserController{}.GetUserInfo)
-		test.GET("/getError", controllers.UserController{}.GetList)
 		test.POST("/post", controllers.UserController{}.PostUserInfo)
 		test.PUT("/put", func(context *gin.Context) {
 			context.String(http.StatusOK, "put")
