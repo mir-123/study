@@ -16,8 +16,8 @@ func (u UserController) ExportTable(c *gin.Context) {
 	// 读取文件
 	//basePath := "D:\\Mir\\test\\aaa\\export\\241121\\in_241121\\"
 	//basePath := "D:\\Mir\\test\\aaa\\export\\241124\\in_1124\\"
-	basePath := "D:\\Mir\\test\\aaa\\export\\in_1125\\"
-	for i := 314; i <= 314; i++ {
+	basePath := "D:\\Mir\\test\\aaa\\export\\1202\\"
+	for i := 1; i <= 383; i++ {
 		filePath := fmt.Sprintf("%s%d.txt", basePath, i)
 		file, err := os.Open(filePath)
 		if err != nil {
