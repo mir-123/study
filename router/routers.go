@@ -25,7 +25,6 @@ func Router() *gin.Engine {
 
 	test := r.Group("/ceshi")
 	{
-		test.GET("/test", controllers.UserController{}.GetTest)
 		test.GET("/get/:id", controllers.UserController{}.GetUserInfo)
 		test.POST("/post", controllers.UserController{}.PostUserInfo)
 		test.PUT("/put", func(context *gin.Context) {
@@ -34,6 +33,8 @@ func Router() *gin.Engine {
 		test.DELETE("/delete", func(context *gin.Context) {
 			context.String(http.StatusOK, "delete")
 		})
+		test.GET("/test", controllers.UserController{}.GetTest)
+		test.GET("/ecod/json", controllers.UserController{}.GetEcodJson)
 	}
 	link := r.Group("/link")
 	{
