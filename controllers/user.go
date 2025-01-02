@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"strconv"
+	"studyGIN/repositories/methods"
 	"time"
 )
 
@@ -12,6 +13,11 @@ type UserController struct{} // 避免同一个包下其他文件内的同名函
 
 // GetTest 仅用于测试
 func (u UserController) GetTest(c *gin.Context) {
+	methods.ArrCut()
+}
+
+// 密钥测试
+func getSwipeKey() {
 	// 生成密钥的测试
 	swipe := struct {
 		Card string

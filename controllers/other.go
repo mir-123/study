@@ -1,12 +1,15 @@
 package controllers
 
 import (
+	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 )
@@ -50,4 +53,90 @@ func (u UserController) GetEcodJson(c *gin.Context) {
 
 	fmt.Println(string(jsonData1)) // {"name":"Alice","age":25}
 	fmt.Println(string(jsonData2)) // {"name":"Bob"}
+}
+
+// 获取对比出来的医生数据
+func (u UserController) GetCompare(c *gin.Context) {
+
+	path := "D:\\Mir\\test\\aaa\\other_temp\\info(1).csv"
+	file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	// 创建CSV Reader对象
+	reader := csv.NewReader(file)
+
+	// 逐行读取数据并处理
+	cot := 0
+	for {
+		cot++
+		record, err := reader.Read()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			fmt.Println("×", record[0], len(record))
+			fmt.Println(err)
+			return
+		}
+
+		if len(record) != 64 {
+			fmt.Println(record)
+			return
+		}
+
+		if cot == 1 {
+			continue
+		}
+
+		_, err = strconv.Atoi(record[0])
+		if err != nil {
+			fmt.Println(err, cot, record)
+			return
+		}
+	}
+
+	// 可以实现
+	////csvPath := "D:\\Mir\\test\\aaa\\other_temp\\test.csv"
+	//csvPath := "D:\\Mir\\test\\aaa\\other_temp\\info(1).csv"
+	//jsonData, err := csvToJSON(csvPath)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//fmt.Println(string(jsonData))
+}
+
+func csvToJSON(csvPath string) ([]byte, error) {
+	type Record struct {
+		Value string `json:"value"`
+	}
+
+	file, err := os.Open(csvPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var data []Record
+	for _, record := range records {
+		if len(record) > 0 {
+			data = append(data, Record{Value: record[0]})
+		}
+	}
+
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return jsonData, nil
 }

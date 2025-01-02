@@ -1,9 +1,13 @@
 package methods
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"github.com/tealeg/xlsx"
+	"io"
+	"os"
+	"strconv"
 )
 
 // 根据 json 文件导出 excel 表格
@@ -257,4 +261,192 @@ func JsonToExcel(jsonData string, filename string, name string) {
 		return
 	}
 	fmt.Printf("转换成功，%s\n", name)
+}
+
+func ReadCsv(path string) {
+	// 打开CSV文件
+	// 0 id
+	// 1 uuid
+	// 2 data_from
+	// 3 serial_code
+	// 4 org_area_code
+	// 5 unit_id
+	// 6 institution_indentity
+	// 7 account
+	// 8 password
+	// 9 name
+	// 10 name_en
+	// 11 gender
+	// 12 birthday
+	// 13 photo_path
+	// 14 indentity_code
+	// 15 nationality
+	// 16 native_place
+	// 17 politics_position
+	// 18 working_time
+	// 19 top_education
+	// 20 top_degree
+	// 21 graduate_school
+	// 22 graduate_date
+	// 23 office_phone
+	// 24 office_fax_no
+	// 25 mobile
+	// 26 email
+	// 27 address
+	// 28 credentials_no
+	// 29 date_of_get_credential
+	// 30 license_no
+	// 31 date_of_get_license
+	// 32 department
+	// 33 dep_code
+	// 34 grade
+	// 35 position
+	// 36 date_of_hold_post
+	// 37 job_title
+	// 38 date_of_get_job_title
+	// 39 working_status
+	// 40 work_years
+	// 41 practice_scope
+	// 42 practice_sort
+	// 43 practice_specialty
+	// 44 summary
+	// 45 remark
+	// 46 status
+	// 47 doctor_profession
+	// 48 profession_edit_uid
+	// 49 certificate_type
+	// 50 certificate_code
+	// 51 create_by
+	// 52 create_on
+	// 53 update_by
+	// 54 update_on
+	// 55 login_count
+	// 56 last_login
+	// 57 area
+	// 58 province
+	// 59 city
+	// 60 district
+	// 61 is_push
+	// 62 is_del
+	// 63 is_duplicate
+	// 源文件行数: 1633967
+	file, err := os.Open(path) // data.csv为要读取的CSV文件名
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	// ww, err := os.OpenFile("temp.csv", os.O_WRONLY|os.O_CREATE, 0777) // data.csv为要读取的CSV文件名
+	// if err != nil {
+	//         panic(err)
+	// }
+	// w := csv.NewWriter(ww)
+	// err = w.Write([]string{"1", "2,\"\"2,2", "3\"", "4", "5.0", "6\n6"})
+	// if err != nil {
+	//         fmt.Println(err)
+	//         return
+	// }
+	// w.Flush()
+	// ww.Close()
+	// if time.Now().Unix() > 1 {
+	//         return
+	// }
+
+	// buf := bufio.NewReader(file)
+	// c := 0
+	// lastID := 0
+	// for {
+
+	//         // ReadString reads until the first occurrence of delim in the input,
+	//         // returning a string containing the data up to and including the delimiter.
+	//         line, err := buf.ReadString('\n')
+	//         c++
+	//         if err != nil {
+	//                 if err == io.EOF {
+	//                         fmt.Println(string(line))
+	//                         break
+	//                 }
+	//                 fmt.Println(err)
+	//                 return
+	//         }
+	//         if c == 1 {
+	//                 continue
+	//         }
+
+	//         lineS := string(line)
+	//         i := strings.Index(lineS, ",")
+	//         if i == -1 {
+	//                 fmt.Println(c, i)
+	//                 return
+	//         }
+	//         id, err := strconv.Atoi(lineS[:i])
+	//         if err != nil {
+	//                 fmt.Println(err, c, i)
+	//                 return
+	//         }
+	//         if id < lastID {
+	//                 panic(id)
+	//         }
+	//         lastID = id
+
+	//         // if !prefix {
+	//         // }
+	//         // if c == 1633966 {
+	//         // fmt.Println(string(line), prefix)
+	//         // }
+	//         // params := strings.Split(string(line), ",")
+	//         // if len(params) != 64 {
+	//         //         fmt.Println(string(line), len(params))
+	//         //         return
+	//         // }
+	// }
+	// fmt.Println(c)
+	// if c > 2 {
+	//         return
+	// }
+
+	// 创建CSV Reader对象
+	reader := csv.NewReader(file)
+
+	// 逐行读取数据并处理
+	cot := 0
+	for {
+		cot++
+		record, err := reader.Read()
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			fmt.Println("×", record[0], len(record))
+			fmt.Println(err)
+			return
+			// fmt.Println(err)
+			// return
+		}
+
+		// 输出每行记录内容
+		// fmt.Println(record[0])
+		if len(record) != 64 {
+			fmt.Println(record)
+			return
+		}
+
+		if cot == 1 {
+			continue
+		}
+
+		_, err = strconv.Atoi(record[0])
+		if err != nil {
+			fmt.Println(err, cot, record)
+			return
+		}
+		// if id < lastID {
+		//         fmt.Println(id, lastID, cot)
+		//         return
+		// }
+		//telephone[record[25]]++
+		// if record[25] == "好" {
+		//         fmt.Println(path, record)
+		// }
+	}
 }

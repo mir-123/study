@@ -1,6 +1,8 @@
+// 此文件中仅存一些 用于测试的 方法
 package methods
 
 import (
+	"fmt"
 	"log"
 )
 
@@ -109,3 +111,45 @@ func MapUser() {
 }
 
 // ————map 映射表 官方案例结束————
+
+// ————切片数组切割 官方案例开始————
+func ArrCut() {
+	//nums := [6]int{1, 2, 3, 4, 5, 6}
+	//log.Println(nums[1:], 1111)       // 子数组范围[1,6) -> [2 3 4 5 6]
+	//log.Println(nums[:5], 22222)      // 子数组范围[0,5) -> [1 2 3 4 5]
+	//log.Println(nums[2:3], 333333333) // 子数组范围[2,3) ->[mums2-muns3)([3, 4))--> [3]
+	//log.Println(nums[1:3], 44444)     // 子数组范围[1,3) -> [2 3]
+	//log.Println(nums[1], 55555555)    // 2
+
+	//nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	//log.Println(nums[:3], 111)
+	//log.Println(nums[5:], 22222)
+	//
+	//aa := append(nums[:3], nums[5:]...)
+	//log.Println(aa, 333)
+
+	//dest := make([]int, 10)
+	//src := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	//fmt.Println(src, dest, 11111111)
+	//fmt.Println(copy(dest, src), 22222222222)
+	//fmt.Println(src, dest, 333333333)
+
+	//slices := make([][]int, 5)
+	//for _, slice := range slices {
+	//	slice = make([]int, 5)
+	//	fmt.Println(slice)
+	//}
+
+	s1 := []int{1, 2, 3, 4, 5, 6, 7, 8, 9} // cap = 9
+	s2 := s1[3:4:4]                        // cap = 9 - 3 = 6
+	fmt.Println(s2, 111)
+	// 添加新元素，由于容量为6.所以没有扩容，直接修改底层数组
+	s2 = append(s2, 1)
+	fmt.Println(s2, 222)
+	fmt.Println(s1, 333)
+	s2 = s2[:0]
+	fmt.Println(s2, 444)
+	fmt.Println(s1, 555)
+}
+
+// ————切片数组切割 官方案例结束————

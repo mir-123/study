@@ -35,6 +35,7 @@ func Router() *gin.Engine {
 		})
 		test.GET("/test", controllers.UserController{}.GetTest)
 		test.GET("/ecod/json", controllers.UserController{}.GetEcodJson)
+		test.GET("/compare", controllers.UserController{}.GetCompare)
 	}
 	link := r.Group("/link")
 	{
